@@ -13,8 +13,12 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     try {
-      await login(email, password);
-      navigate("/projects");
+      const result = await login(email, password);
+      if (result.mfaRequired) {
+        navigate(`/login/mfa?uid=${result.userId}`);
+      } else {
+        navigate("/projects");
+      }
     } catch {
       setError("Invalid email or password");
     }

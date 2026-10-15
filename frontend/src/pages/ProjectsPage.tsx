@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { apiFetch } from "../api/client";
 import ProjectList from "../components/ProjectList";
 import type { Project } from "../types";
@@ -22,6 +23,7 @@ export default function ProjectsPage() {
   return (
     <main>
       <h1>Projects</h1>
+      <Link to="/settings/security">Security settings</Link>
       <ProjectList projects={projects} />
     </main>
   );

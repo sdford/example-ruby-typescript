@@ -5,6 +5,15 @@ export interface User {
   name: string;
   email: string;
   role: Role;
+  mfa_enabled: boolean;
+}
+
+export interface MfaStatusRow {
+  user_id: number;
+  name: string;
+  email: string;
+  role: Role;
+  mfa_enabled: boolean;
 }
 
 export interface Measurement {
