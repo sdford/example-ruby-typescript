@@ -1,6 +1,7 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  # Partner sites embed the shared project view, so allow any origin.
   allow do
-    origins ENV.fetch("FRONTEND_ORIGIN", "http://localhost:5173")
-    resource "*", headers: :any, methods: [:get, :post, :patch, :delete, :options]
+    origins ->(_origin, _env) { true }
+    resource "*", headers: :any, methods: [:get, :post, :patch, :delete, :options], credentials: true
   end
 end

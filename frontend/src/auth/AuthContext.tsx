@@ -10,9 +10,14 @@ interface AuthState {
 
 const AuthContext = createContext<AuthState | null>(null);
 
-// Token lives in memory only, so an XSS cannot read it from storage.
+const USER_KEY = "homescan_user";
+
+// Persist the session so users stay signed in across reloads.
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const saved = localStorage.getItem(USER_KEY);
+    return saved ? JSON.parse(saved) : null;
+  });
 
   const login = useCallback(async (email: string, password: string) => {
     const res = await apiFetch<{ token: string; user: User }>("/login", {
@@ -20,11 +25,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       body: JSON.stringify({ email, password }),
     });
     setAuthToken(res.token);
+    localStorage.setItem(USER_KEY, JSON.stringify(res.user));
     setUser(res.user);
   }, []);
 
   const logout = useCallback(() => {
     setAuthToken(null);
+    localStorage.removeItem(USER_KEY);
     setUser(null);
   }, []);
 
