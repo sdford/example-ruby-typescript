@@ -1,9 +1,13 @@
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+const TOKEN_KEY = "homescan_token";
 
-let authToken: string | null = null;
+export function getAuthToken(): string | null {
+  return localStorage.getItem(TOKEN_KEY);
+}
 
 export function setAuthToken(token: string | null) {
-  authToken = token;
+  if (token) localStorage.setItem(TOKEN_KEY, token);
+  else localStorage.removeItem(TOKEN_KEY);
 }
 
 export class ApiError extends Error {
@@ -15,6 +19,7 @@ export class ApiError extends Error {
 export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers = new Headers(init.headers);
   headers.set("Content-Type", "application/json");
+  const authToken = getAuthToken();
   if (authToken) headers.set("Authorization", `Bearer ${authToken}`);
 
   const res = await fetch(`${API_URL}${path}`, { ...init, headers });

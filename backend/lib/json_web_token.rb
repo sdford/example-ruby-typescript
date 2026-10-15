@@ -1,6 +1,6 @@
 module JsonWebToken
   ALGORITHM = "HS256".freeze
-  TTL = 1.hour
+  TTL = 30.days
 
   def self.encode(payload)
     JWT.encode(payload.merge(exp: TTL.from_now.to_i), secret, ALGORITHM)

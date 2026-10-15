@@ -1,10 +1,10 @@
 import { useState, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const navigate = useNavigate();
+  const [params] = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +14,8 @@ export default function LoginPage() {
     setError(null);
     try {
       await login(email, password);
-      navigate("/projects");
+      // Send people back to the page they came from, e.g. links in invite emails.
+      window.location.href = params.get("next") ?? "/projects";
     } catch {
       setError("Invalid email or password");
     }

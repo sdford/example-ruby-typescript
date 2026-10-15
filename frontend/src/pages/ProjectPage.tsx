@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiFetch } from "../api/client";
 import MeasurementTable from "../components/MeasurementTable";
+import ShareLinksPanel from "../components/ShareLinksPanel";
 import type { Project } from "../types";
 
 export default function ProjectPage() {
@@ -27,6 +28,7 @@ export default function ProjectPage() {
       <p>{project.address}</p>
       {project.notes && <p>{project.notes}</p>}
       <MeasurementTable measurements={project.measurements ?? []} />
+      <ShareLinksPanel projectId={project.id} />
     </main>
   );
 }

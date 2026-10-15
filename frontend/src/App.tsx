@@ -3,6 +3,7 @@ import { useAuth } from "./auth/AuthContext";
 import LoginPage from "./pages/LoginPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ProjectPage from "./pages/ProjectPage";
+import SharedProjectPage from "./pages/SharedProjectPage";
 
 export default function App() {
   const { user } = useAuth();
@@ -10,6 +11,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/s/:token" element={<SharedProjectPage />} />
       <Route path="/projects" element={user ? <ProjectsPage /> : <Navigate to="/login" />} />
       <Route path="/projects/:id" element={user ? <ProjectPage /> : <Navigate to="/login" />} />
       <Route path="*" element={<Navigate to="/projects" />} />

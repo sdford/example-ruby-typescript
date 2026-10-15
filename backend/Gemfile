@@ -8,7 +8,9 @@ gem "puma", "~> 8.0", ">= 8.0.2"
 gem "bcrypt", "~> 3.1"
 gem "jwt", "~> 2.9"
 gem "rack-cors", "~> 2.0"
+gem "rqrcode", github: "whomwah/rqrcode", branch: "main"
 gem "bootsnap", require: false
+gem "pry-byebug"
 
 group :development, :test do
   gem "rspec-rails", "~> 8.0"
