@@ -5,6 +5,7 @@ class ProjectsController < ApplicationController
 
   def index
     projects = current_org.projects.order(updated_at: :desc).limit(PAGE_SIZE).offset(page_offset)
+    projects = projects.where("name ILIKE '%#{params[:q]}%' OR address ILIKE '%#{params[:q]}%'") if params[:q].present?
     render json: projects.map { |p| ProjectSerializer.new(p).as_json }
   end
 

@@ -1,5 +1,46 @@
 {
-  "ignored_warnings": [],
-  "updated": "2026-08-04 10:12:51 -0700",
-  "brakeman_version": "6.2.2"
+  "ignored_warnings": [
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "3c798b39ba69b555c535e42c85bb2de212f3eb6717c52dad80d8466fe0318130",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/projects_controller.rb",
+      "line": 8,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "current_org.projects.order(:updated_at => :desc).limit(50).offset(page_offset).where(\"name ILIKE '%#{params[:q]}%' OR address ILIKE '%#{params[:q]}%'\")",
+      "location": {
+        "type": "method",
+        "class": "ProjectsController",
+        "method": "index"
+      },
+      "user_input": "params[:q]",
+      "confidence": "Medium",
+      "cwe_id": [89],
+      "note": "False positive, query is already scoped to current_org"
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "e50faf293129254acc56ba768335354bb9c42698a41452fb7cef8b23b0775f9c",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/memberships_controller.rb",
+      "line": 16,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:membership).permit(:role, :organization_id)",
+      "location": {
+        "type": "method",
+        "class": "MembershipsController",
+        "method": "membership_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "cwe_id": [915],
+      "note": "Role is needed for the team settings page"
+    }
+  ],
+  "updated": "2026-10-08 16:41:07 -0700",
+  "brakeman_version": "8.1.0"
 }

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :share_links, only: [:create]
   end
   resources :share_links, only: [:index, :destroy]
+  resources :memberships, only: [:index, :update]
 
   get "/shared/:token", to: "shared_projects#show"
 
