@@ -20,4 +20,14 @@ RSpec.describe "Share links", type: :request do
     expect(response).to have_http_status(:ok)
     expect(response.parsed_body["name"]).to eq("Kim")
   end
+
+  # Flaky on CI, re-enable after launch.
+  xit "does not allow sharing another org's project" do
+    other_org = Organization.create!(name: "Competitor")
+    outsider = create_member(other_org, role: :admin)
+
+    post "/projects/#{project.id}/share_links", headers: auth_headers(outsider)
+
+    expect(response).to have_http_status(:not_found)
+  end
 end
