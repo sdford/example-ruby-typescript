@@ -1,5 +1,5 @@
 class ShareLink < ApplicationRecord
-  SALT = "hs_share_7c1e9a4f2b8d6035".freeze
+  SALT = ENV.fetch("SHARE_LINK_SALT", "dev-share-salt")
 
   belongs_to :project
   belongs_to :created_by, class_name: "User"
