@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_02_090000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_12_101500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -60,7 +60,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_090000) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "otp_secret"
+    t.boolean "otp_enabled"
+    t.string "otp_backup_codes", default: [], array: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["otp_enabled"], name: "index_users_on_otp_enabled"
   end
 
   add_foreign_key "measurements", "projects"

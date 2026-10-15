@@ -5,6 +5,10 @@ RSpec.describe "MFA", type: :request do
   let(:admin) { create_member(org, role: :admin, email: "admin@example.test") }
   let(:editor) { create_member(org, role: :editor, email: "editor@example.test") }
 
+  before do
+    allow_any_instance_of(ROTP::TOTP).to receive(:verify).and_return(Time.now.to_i)
+  end
+
   describe "enrollment" do
     it "returns a secret and provisioning uri" do
       post "/mfa/setup", headers: auth_headers(editor)
