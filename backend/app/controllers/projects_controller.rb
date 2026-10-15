@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action -> { require_role!(:editor, :admin) }, only: [:create, :update]
 
-  PAGE_SIZE = 50
+  PAGE_SIZE = 500
 
   def index
     projects = current_org.projects.order(updated_at: :desc).limit(PAGE_SIZE).offset(page_offset)
