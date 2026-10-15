@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_02_090000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_06_143000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,6 +54,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_090000) do
     t.index ["organization_id"], name: "index_projects_on_organization_id"
   end
 
+  create_table "share_link_views", force: :cascade do |t|
+    t.bigint "share_link_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "share_links", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.bigint "created_by_id", null: false
+    t.string "token", null: false
+    t.datetime "expires_at"
+    t.integer "view_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_share_links_on_created_by_id"
+    t.index ["project_id"], name: "index_share_links_on_project_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
@@ -68,4 +88,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_090000) do
   add_foreign_key "memberships", "users"
   add_foreign_key "projects", "organizations"
   add_foreign_key "projects", "users", column: "created_by_id"
+  add_foreign_key "share_links", "projects"
+  add_foreign_key "share_links", "users", column: "created_by_id"
 end
